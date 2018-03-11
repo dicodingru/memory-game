@@ -1,0 +1,39 @@
+{
+  "name": "di-memory-game",
+  "version": "0.0.1",
+  "description": "Memory Game",
+  "main": "index.html",
+  "scripts": {
+    "build": "browserify js/app.js -o bundle.js -t [ babelify --presets [ es2015 ] ]",
+    "eslint": "eslint",
+    "test": "jest --colors",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dicodingru/memory-game.git"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "author": "Di Coding",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dicodingru/memory-game/issues"
+  },
+  "homepage": "https://github.com/dicodingru/memory-game",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.1.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "jest": "^22.4.2"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Memory Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+</head>
+<body>
+  <div id="veil"></div>
+
+  <!-- Основной контейнер -->
+  <div class="app" data-tid="App">
+
+    <!-- Главное окно -->
+    <div class="main d-inline-block align-top">
+      <img class="start-image" src="./assets/StartGame.png" alt="">
+      <h1>MEMORY GAME</h1>
+      <br>
+      <button class="btn btn-primary" id="new-game-button" type="submit" data-tid="NewGame-startGame"><b>Начать игру</b></button>
+    </div>
+
+    <!-- Игровое поле -->
+    <div class="play d-inline-block align-top">
+      <div class="container">
+        <div class="d-inline-block" id="restart-game" data-tid="Menu-newGame">Начать заново</div>
+        <div class="d-inline-block" id="hack" data-tid="Menu-newGame">Завершить</div>
+        <div class="d-inline-block" id="board" data-tid="Menu-scores">Очки: <span id="score">0</span></div>
+      </div>
+      <div class="ground" data-tid="Deck">
+        <div class="row1 d-block"></div>
+        <div class="row2 d-block"></div>
+        <div class="row3 d-block"></div>
+      </div>
+    </div>
+
+    <!-- Конец игры -->
+    <div class="end d-inline-block align-top">
+      <img src="./assets/EndGame.png" alt="">
+      <h1>Поздравляем!</h1>
+      <br>
+      <h1 id="result"></h1>
+      <button class="btn btn-primary" id="one-more" type="submit" data-tid="EndGame-retryGame">Еще раз</button>
+    </div>
+  </div>
+
+  <script src="bundle.js"></script>
+</body>
+</html>
