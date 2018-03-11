@@ -137,36 +137,47 @@ var _Game2 = _interopRequireDefault(_Game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Запретить клики мышью
 var blockClicks = function blockClicks() {
   document.getElementById('veil').style.display = 'block';
 };
+
+// Разрешить клики мышью
 var unblockClicks = function unblockClicks() {
   document.getElementById('veil').style.display = 'none';
 };
 
+// Скрыть все карты
 var hideCards = function hideCards() {
   [].forEach.call(document.getElementsByClassName('back'), function (item) {
     item.classList.remove('hide');
   });
 };
 
+// Увеличить количество очков
 var upScore = function upScore(game) {
   var newScore = game.getScore() + game.getSet().size * 42;
   game.setScore(newScore);
   document.getElementById('score').innerText = newScore;
 };
 
+// Уменьшить количество очков
 var downScore = function downScore(game) {
   var newScore = game.getScore() - (game.getSize() - game.getSet().size) * 42;
   game.setScore(newScore);
   document.getElementById('score').innerText = newScore;
 };
 
+// Завершить игру и показать результат
 var finish = function finish(game) {
   document.getElementById('result').innerText = '\u0412\u0430\u0448 \u0438\u0442\u043E\u0433\u043E\u0432\u044B\u0439 \u0441\u0447\u0435\u0442: ' + game.getScore();
-  document.getElementsByClassName('main')[0].style.marginLeft = '-1530px';
+
+  document.getElementById('end').style.order = '1';
+  document.getElementById('play').style.order = '2';
+  document.getElementById('main').style.order = '3';
 };
 
+// Расположить карты на странице игры
 var render = function render(game) {
   game.getCards().forEach(function (el, ind) {
     var node = document.createElement('div');
@@ -243,6 +254,7 @@ var render = function render(game) {
   });
 };
 
+// Выбрать случайные карты и начать игру
 var start = function start(game) {
   game.setScore(0);
   game.deal(function () {
@@ -260,9 +272,10 @@ var start = function start(game) {
   setTimeout(function () {
     hideCards();
     unblockClicks();
-  }, 3000);
+  }, 5000);
 };
 
+// Убрать карты со стола
 var kill = function kill() {
   document.getElementsByClassName('row1')[0].innerHTML = '';
   document.getElementsByClassName('row2')[0].innerHTML = '';
@@ -272,25 +285,35 @@ var kill = function kill() {
 
 document.addEventListener('DOMContentLoaded', function () {
   var game = new _Game2.default([], 9);
-  start(game);
 
+  // Начать игру
   document.getElementById('new-game-button').addEventListener('click', function () {
-    document.getElementsByClassName('main')[0].style.marginLeft = '-700px';
+    start(game);
+
+    document.getElementById('play').style.order = '1';
+    document.getElementById('main').style.order = '2';
+    document.getElementById('end').style.order = '3';
   });
 
+  // Перезапустить игру
   document.getElementById('restart-game').addEventListener('click', function () {
     blockClicks();
     kill();
     start(game);
   });
 
+  // Играть еще раз
   document.getElementById('one-more').addEventListener('click', function () {
     blockClicks();
     kill();
     start(game);
-    document.getElementsByClassName('main')[0].style.marginLeft = '-700px';
+
+    document.getElementById('play').style.order = '1';
+    document.getElementById('main').style.order = '2';
+    document.getElementById('end').style.order = '3';
   });
 
+  // Временная кнопка для завершения игры
   document.getElementById('hack').addEventListener('click', function () {
     finish(game);
   });

@@ -1,35 +1,46 @@
 import Game from './Game';
 
+// Запретить клики мышью
 const blockClicks = () => {
   document.getElementById('veil').style.display = 'block';
 };
+
+// Разрешить клики мышью
 const unblockClicks = () => {
   document.getElementById('veil').style.display = 'none';
 };
 
+// Скрыть все карты
 const hideCards = () => {
   [].forEach.call(document.getElementsByClassName('back'), (item) => {
     item.classList.remove('hide');
   });
 };
 
+// Увеличить количество очков
 const upScore = (game) => {
   const newScore = game.getScore() + (game.getSet().size * 42);
   game.setScore(newScore);
   document.getElementById('score').innerText = newScore;
 };
 
+// Уменьшить количество очков
 const downScore = (game) => {
   const newScore = game.getScore() - ((game.getSize() - game.getSet().size) * 42);
   game.setScore(newScore);
   document.getElementById('score').innerText = newScore;
 };
 
+// Завершить игру и показать результат
 const finish = (game) => {
   document.getElementById('result').innerText = `Ваш итоговый счет: ${game.getScore()}`;
-  document.getElementsByClassName('main')[0].style.marginLeft = '-1530px';
+
+  document.getElementById('end').style.order = '1';
+  document.getElementById('play').style.order = '2';
+  document.getElementById('main').style.order = '3';
 };
 
+// Расположить карты на странице игры
 const render = (game) => {
   game.getCards().forEach((el, ind) => {
     const node = document.createElement('div');
@@ -45,6 +56,7 @@ const render = (game) => {
     back.classList.add('back');
     back.classList.add('hide');
 
+    // Обработчик клика по карте
     back.addEventListener('click', (e) => {
       blockClicks();
 
@@ -106,6 +118,7 @@ const render = (game) => {
   });
 };
 
+// Выбрать случайные карты и начать игру
 const start = (game) => {
   game.setScore(0);
   game.deal(() => (Math.floor(52 * Math.random()) + 1));
@@ -119,9 +132,10 @@ const start = (game) => {
   setTimeout(() => {
     hideCards();
     unblockClicks();
-  }, 3000);
+  }, 5000);
 };
 
+// Убрать карты со стола
 const kill = () => {
   document.getElementsByClassName('row1')[0].innerHTML = '';
   document.getElementsByClassName('row2')[0].innerHTML = '';
@@ -131,26 +145,36 @@ const kill = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const game = new Game([], 9);
-  start(game);
 
+  // Начать игру
   document.getElementById('new-game-button').addEventListener('click', () => {
-    document.getElementsByClassName('main')[0].style.marginLeft = '-700px';
+    start(game);
+
+    document.getElementById('play').style.order = '1';
+    document.getElementById('main').style.order = '2';
+    document.getElementById('end').style.order = '3';
   });
 
+  // Перезапустить игру
   document.getElementById('restart-game').addEventListener('click', () => {
     blockClicks();
     kill();
     start(game);
   });
 
+  // Играть еще раз
   document.getElementById('one-more').addEventListener('click', () => {
     blockClicks();
     kill();
     start(game);
-    document.getElementsByClassName('main')[0].style.marginLeft = '-700px';
+
+    document.getElementById('play').style.order = '1';
+    document.getElementById('main').style.order = '2';
+    document.getElementById('end').style.order = '3';
   });
 
-  document.getElementById('hack').addEventListener('click', () => {
-    finish(game);
-  });
+  // Временная кнопка для завершения игры
+  // document.getElementById('hack').addEventListener('click', () => {
+  //   finish(game);
+  // });
 }, false);
