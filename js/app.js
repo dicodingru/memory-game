@@ -1,46 +1,44 @@
 import Game from './Game';
 
-// Запретить клики мышью
+// Prevent click events on cards
 const blockClicks = () => {
   document.getElementById('veil').style.display = 'block';
 };
 
-// Разрешить клики мышью
+// Allow click events on cards
 const unblockClicks = () => {
   document.getElementById('veil').style.display = 'none';
 };
 
-// Скрыть все карты
+// Hide all cards
 const hideCards = () => {
   [].forEach.call(document.getElementsByClassName('back'), (item) => {
     item.classList.remove('hide');
   });
 };
 
-// Увеличить количество очков
+// Increase scores when second card chosen is the same
 const upScore = (game) => {
   const newScore = game.getScore() + (game.getSet().size * 42);
   game.setScore(newScore);
   document.getElementById('score').innerText = newScore;
 };
 
-// Уменьшить количество очков
+// Decrease scores when wrong second card is chosen
 const downScore = (game) => {
   const newScore = game.getScore() - ((game.getSize() - game.getSet().size) * 42);
   game.setScore(newScore);
   document.getElementById('score').innerText = newScore;
 };
 
-// Завершить игру и показать результат
+// Finish the game and show the result
 const finish = (game) => {
-  document.getElementById('result').innerText = `Ваш итоговый счет: ${game.getScore()}`;
-
+  document.getElementById('result').innerText = `${game.getScore()}`;
   document.getElementById('end').style.order = '1';
   document.getElementById('play').style.order = '2';
-  document.getElementById('main').style.order = '3';
 };
 
-// Расположить карты на странице игры
+// Render the card on the browser page
 const render = (game) => {
   game.getCards().forEach((el, ind) => {
     const node = document.createElement('div');
@@ -53,10 +51,11 @@ const render = (game) => {
     const back = document.createElement('img');
     back.setAttribute('src', './assets/cards/back.png');
     back.setAttribute('id', `${ind}`);
+    back.setAttribute('data-tid', 'Card-flipped');
     back.classList.add('back');
     back.classList.add('hide');
 
-    // Обработчик клика по карте
+    // Add click event listener on a card
     back.addEventListener('click', (e) => {
       blockClicks();
 
@@ -90,8 +89,8 @@ const render = (game) => {
         e.target.classList.add('hide');
         setTimeout(() => {
           blockClicks();
-          document.getElementById(index).parentElement.style.visibility = 'hidden';
-          document.getElementById(clicked.getIndex()).parentElement.style.visibility = 'hidden';
+          document.getElementById(index).parentElement.classList.add('hide');
+          document.getElementById(clicked.getIndex()).parentElement.classList.add('hide');
           unblockClicks();
         }, 500);
         if (game.getSet().size === 0) {
@@ -118,7 +117,7 @@ const render = (game) => {
   });
 };
 
-// Выбрать случайные карты и начать игру
+// Deal cards, shuffle the chosen ones and start a game
 const start = (game) => {
   game.setScore(0);
   game.deal(() => (Math.floor(52 * Math.random()) + 1));
@@ -135,7 +134,7 @@ const start = (game) => {
   }, 5000);
 };
 
-// Убрать карты со стола
+// Clear the playground
 const kill = () => {
   document.getElementsByClassName('row1')[0].innerHTML = '';
   document.getElementsByClassName('row2')[0].innerHTML = '';
@@ -146,34 +145,31 @@ const kill = () => {
 document.addEventListener('DOMContentLoaded', () => {
   const game = new Game([], 9);
 
-  // Начать игру
-  document.getElementById('new-game-button').addEventListener('click', () => {
+  // Start the game when "Start game" button is clicked
+  document.getElementById('new-game').addEventListener('click', () => {
     start(game);
-
     document.getElementById('play').style.order = '1';
     document.getElementById('main').style.order = '2';
-    document.getElementById('end').style.order = '3';
   });
 
-  // Перезапустить игру
+  // Restart the game
   document.getElementById('restart-game').addEventListener('click', () => {
     blockClicks();
     kill();
     start(game);
   });
 
-  // Играть еще раз
+  // Play one more time after showing results
   document.getElementById('one-more').addEventListener('click', () => {
     blockClicks();
     kill();
     start(game);
 
     document.getElementById('play').style.order = '1';
-    document.getElementById('main').style.order = '2';
-    document.getElementById('end').style.order = '3';
+    document.getElementById('end').style.order = '2';
   });
 
-  // Временная кнопка для завершения игры
+  // Temporary button for testing the interface
   // document.getElementById('hack').addEventListener('click', () => {
   //   finish(game);
   // });

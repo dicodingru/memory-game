@@ -10,33 +10,9 @@ body {
   background-color: #1b6f2f;
 }
 
-#app {
-  white-space: nowrap;
-  overflow-x: hidden;
-  padding-top: 90px;
-}
+.app { padding-top: 90px; }
 
-#main,
-#play,
-#end {
-  width: 100%;
-  margin-bottom: 100%;
-}
-
-#main {
-  order: 1;
-}
-
-#play {
-  order: 2;
-}
-
-#end {
-  order: 3;
-}
-
-.start-image,
-.end-image {
+.image {
   width: 503px;
   height: 252px;
   margin-bottom: 40px;
@@ -46,7 +22,7 @@ body {
   display: inline-block;
   width: 100px;
   height: 140px;
-  margin: 10px 10px 10px 10px;
+  margin: 10px;
 }
 
 .card img {
@@ -64,7 +40,15 @@ body {
   visibility: hidden;
 }
 
-#title {
+#main,
+#play,
+#end { margin-bottom: 100%; }
+
+#main { order: 1; }
+#play { order: 2; }
+#end { order: 3; }
+
+.title {
   width: 219px;
   height: 38px;
   color: #DDEAE0;
@@ -72,12 +56,35 @@ body {
   font-weight: bolder;
 }
 
-#play-title {
+.play-title {
   width: 710px;
   font-size: 14px;
   font-family: monospace;
   font-weight: bold;
   color: #BFD7C4;
+}
+
+.end-text {
+  width: 304px;
+  height: 70px;
+  margin: 20px 0 35px 0;
+}
+
+.end-text h2 {
+  color: #DDEAE0;
+  font-size: 28px;
+  font-weight: bolder;
+}
+
+.btn {
+  width: 144px;
+  height: 42px;
+  background-color: #DDEAE0;
+  color:#1C7430;
+  border: none;
+  font-size: 17px;
+  font-weight: bolder;
+  font-family: Helvetica;
 }
 
 span#restart-game {
@@ -90,32 +97,8 @@ span#restart-game:hover {
   background-color: darkgreen;
 }
 
-span#board {
+span.board {
   padding: 0 5px;
-}
-
-#end-text {
-  width: 304px;
-  height: 70px;
-  margin: 20px 0 35px 0;
-}
-
-#end-text h2 {
-  color: #DDEAE0;
-  font-size: 28px;
-  font-weight: bolder;
-}
-
-#new-game-button,
-#one-more {
-  width: 144px;
-  height: 42px;
-  background-color: #DDEAE0;
-  color:#1C7430;
-  border: none;
-  font-size: 17px;
-  font-weight: bolder;
-  font-family: Helvetica;
 }
 
 #veil {

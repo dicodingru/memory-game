@@ -1,38 +1,40 @@
 # Memory Game
 [![Build Status](https://travis-ci.org/dicodingru/memory-game.svg?branch=master)](https://travis-ci.org/dicodingru/memory-game)
 
-«Memory» – это карточная настольная игра на одного. Игрок открывает любые две карты за один ход. Если при открытии образовалась пара одинаковых по масти и номиналу карт, то они пропадают со стола, а игроку начисляются очки. Если открытые карты оказались разными, то они переворачивают обратно рубашкой вверх, а количество набранных очков уменьшается.
+«Memory» – is a card game in which all of the cards are laid face down on a surface and two cards are flipped face up over each turn. The object of the game is to turn over pairs of matching cards.
 
-## Установка и запуск
+## Installing
 ---
+
+Clone repository and run:
 
 ```bash
 make install
 ```
 
-или
+Or get `npm` package:
 
 ```
 npm install di-memory-game
 ```
 
-После установки открыть `index.html`.
+Open `index.html` file after installation.
 
-## Сборка
+## Build
 ---
 
 ```bash
 make build
 ```
 
-## Запуск тестов
+## Running the tests
 ---
 
 ```bash
 make test
 ```
 
-## Используемые инструменты
+## Built With
 
-- VanillaJS Framework
-- Bootstrap 4.0
+- [VanillaJS Framework](http://vanilla-js.com/)
+- [Bootstrap 4.0](https://getbootstrap.com/)

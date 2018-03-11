@@ -12,40 +12,41 @@
 <body>
   <div id="veil"></div>
 
-  <!-- Основной контейнер -->
-  <div class="d-flex flex-column justify-content-center align-items-center" id="app" data-tid="App">
+  <div class="app d-flex flex-column justify-content-center align-items-center" data-tid="App">
 
-    <!-- Главное окно -->
     <div class="d-flex flex-column justify-content-center align-items-center" id="main">
-      <img class="start-image" src="./assets/StartGame.png" alt="">
-      <div><h2 id="title">MEMORY GAME</h2></div>
+      <img class="image" src="./assets/StartGame.png" alt="">
+      <div>
+        <h2 class="title">MEMORY GAME</h2>
+      </div>
       <br>
-      <button class="btn btn-primary" id="new-game-button" type="submit" data-tid="NewGame-startGame"><b>Начать игру</b></button>
+      <button class="btn" id="new-game" type="submit" data-tid="NewGame-startGame">
+        <b>Начать игру</b>
+      </button>
     </div>
 
-    <!-- Игровое поле -->
     <div class="d-flex flex-column justify-content-center align-items-center" id="play">
-      <div class="d-flex flex-row justify-content-end" id="play-title">
+      <div class="play-title d-flex flex-row justify-content-end">
         <span class="mr-auto" id="restart-game" data-tid="Menu-newGame">Начать заново</span>
-        <!-- <div class="mr-auto d-flex" id="hack" data-tid="Menu-newGame">Завершить</div> -->
-        <span class="" id="board" data-tid="Menu-scores">Очки: <span id="score">0</span></span>
+        <!-- Button for quick testing -->
+        <!-- <div class="mr-auto d-flex" id="hack">Завершить</div> -->
+        <span class="board">Очки: <span id="score" data-tid="Menu-scores">0</span></span>
       </div>
-      <div id="deck" data-tid="Deck">
+      <div data-tid="Deck">
         <div class="row1"></div>
         <div class="row2"></div>
         <div class="row3"></div>
       </div>
     </div>
 
-    <!-- Конец игры -->
     <div class="d-flex flex-column justify-content-center align-items-center" id="end">
-      <img class="end-image" src="./assets/EndGame.png" alt="">
-      <div id="end-text">
+      <img class="image" src="./assets/EndGame.png" alt="">
+      <div class="end-text">
         <h2>Поздравляем!</h2>
-        <h2 id="result"></h2>
+        <h2>Ваш итоговый счет: <span id="result"></span></h2>
       </div>
       <br>
-      <button class="btn btn-primary" id="one-more" type="submit" data-tid="EndGame-retryGame">Еще раз</button>
+      <button class="btn" id="one-more" type="submit" data-tid="EndGame-retryGame">Еще раз</button>
     </div>
   </div>
 
