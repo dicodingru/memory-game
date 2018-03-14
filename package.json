@@ -7,7 +7,8 @@
     "build": "browserify js/app.js -o bundle.js -t [ babelify --presets [ es2015 ] ]",
     "eslint": "eslint",
     "test": "jest --colors",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -35,5 +36,7 @@
     "eslint-plugin-import": "^2.9.0",
     "jest": "^22.4.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
