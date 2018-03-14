@@ -1,5 +1,6 @@
 # Memory Game
 [![Build Status](https://travis-ci.org/dicodingru/memory-game.svg?branch=master)](https://travis-ci.org/dicodingru/memory-game)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=still-mesa-79200)](https://still-mesa-79200.herokuapp.com/)
 
 «Memory» – is a card game in which all of the cards are laid face down on a surface and two cards are flipped face up over each turn. The object of the game is to turn over pairs of matching cards.
 
