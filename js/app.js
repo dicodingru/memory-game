@@ -17,36 +17,22 @@ const hideCards = () => {
   });
 };
 
-// Increase scores when second card chosen is the same
-const upScore = (game) => {
-  const newScore = game.getScore() + (game.getSet().size * 42);
-  game.setScore(newScore);
-  document.getElementById('score').innerText = newScore;
-};
-
-// Decrease scores when wrong second card is chosen
-const downScore = (game) => {
-  const newScore = game.getScore() - ((game.getSize() - game.getSet().size) * 42);
-  game.setScore(newScore);
-  document.getElementById('score').innerText = newScore;
-};
-
 // Finish the game and show the result
 const finish = (game) => {
-  document.getElementById('result').innerText = `${game.getScore()}`;
+  document.getElementById('result').innerText = `${game.score}`;
   document.getElementById('end').style.order = '1';
   document.getElementById('play').style.order = '2';
 };
 
-// Render the card on the browser page
+// Render the cards on the browser page
 const render = (game) => {
-  game.getCards().forEach((el, ind) => {
+  game.cards.forEach((el, ind) => {
     const node = document.createElement('div');
     node.setAttribute('data-tid', 'Card');
     node.classList.add('card');
 
     const face = document.createElement('img');
-    face.setAttribute('src', `./assets/cards/${el.getNum()}.png`);
+    face.setAttribute('src', `./assets/cards/${el.num}.png`);
 
     const back = document.createElement('img');
     back.setAttribute('src', './assets/cards/back.png');
@@ -60,10 +46,10 @@ const render = (game) => {
       blockClicks();
 
       const index = e.target.getAttribute('id');
-      const current = game.getCards()[index];
-      const clicked = game.getClicked();
+      const current = game.cards[index];
+      const { clicked } = game;
 
-      if (!game.getSet().has(current.getNum())) {
+      if (!game.set.has(current.num)) {
         unblockClicks();
         return;
       }
@@ -82,18 +68,18 @@ const render = (game) => {
         return;
       }
 
-      if (clicked.getNum() === current.getNum()) {
+      if (clicked.num === current.num) {
         game.setClicked(null);
-        upScore(game);
-        game.getSet().delete(current.getNum());
+        document.getElementById('score').innerText = game.upScore();
+        game.set.delete(current.num);
         e.target.classList.add('hide');
         setTimeout(() => {
           blockClicks();
           document.getElementById(index).parentElement.classList.add('hide');
-          document.getElementById(clicked.getIndex()).parentElement.classList.add('hide');
+          document.getElementById(clicked.index).parentElement.classList.add('hide');
           unblockClicks();
         }, 500);
-        if (game.getSet().size === 0) {
+        if (game.set.size === 0) {
           finish(game);
         }
         return;
@@ -103,8 +89,8 @@ const render = (game) => {
       setTimeout(() => {
         game.setClicked(null);
         e.target.classList.remove('hide');
-        document.getElementById(clicked.getIndex()).classList.remove('hide');
-        downScore(game);
+        document.getElementById(clicked.index).classList.remove('hide');
+        document.getElementById('score').innerText = game.downScore();
         unblockClicks();
       }, 500);
     });
@@ -135,7 +121,7 @@ const start = (game) => {
 };
 
 // Clear the playground
-const kill = () => {
+const clear = () => {
   document.getElementsByClassName('row1')[0].innerHTML = '';
   document.getElementsByClassName('row2')[0].innerHTML = '';
   document.getElementsByClassName('row3')[0].innerHTML = '';
@@ -143,7 +129,7 @@ const kill = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const game = new Game([], 9);
+  const game = new Game();
 
   // Start the game when "Start game" button is clicked
   document.getElementById('new-game').addEventListener('click', () => {
@@ -155,14 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Restart the game
   document.getElementById('restart-game').addEventListener('click', () => {
     blockClicks();
-    kill();
+    clear();
     start(game);
   });
 
   // Play one more time after showing results
   document.getElementById('one-more').addEventListener('click', () => {
     blockClicks();
-    kill();
+    clear();
     start(game);
 
     document.getElementById('play').style.order = '1';

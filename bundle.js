@@ -5,32 +5,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _class = function () {
-  function _class(num, index) {
-    _classCallCheck(this, _class);
+var _class = function _class(num, index) {
+  _classCallCheck(this, _class);
 
-    this.num = num; // Card rank (picture name)
-    this.index = index; // Order number on the table
-  }
-
-  _createClass(_class, [{
-    key: "getNum",
-    value: function getNum() {
-      return this.num;
-    }
-  }, {
-    key: "getIndex",
-    value: function getIndex() {
-      return this.index;
-    }
-  }]);
-
-  return _class;
-}();
+  this.num = num; // Card rank (picture name)
+  this.index = index; // Order number on the table
+};
 
 exports.default = _class;
 
@@ -68,31 +50,6 @@ var _class = function () {
   }
 
   _createClass(_class, [{
-    key: 'getCards',
-    value: function getCards() {
-      return this.cards;
-    }
-  }, {
-    key: 'getSize',
-    value: function getSize() {
-      return this.size;
-    }
-  }, {
-    key: 'getSet',
-    value: function getSet() {
-      return this.set;
-    }
-  }, {
-    key: 'getClicked',
-    value: function getClicked() {
-      return this.clicked;
-    }
-  }, {
-    key: 'getScore',
-    value: function getScore() {
-      return this.score;
-    }
-  }, {
     key: 'setClicked',
     value: function setClicked(card) {
       this.clicked = card;
@@ -130,6 +87,26 @@ var _class = function () {
         return new _Card2.default(val, ind);
       });
     }
+
+    // Increase scores when second card chosen is the same
+
+  }, {
+    key: 'upScore',
+    value: function upScore() {
+      var newScore = this.score + this.set.size * 42;
+      this.setScore(newScore);
+      return this.score;
+    }
+
+    // Decrease scores when wrong second card is chosen
+
+  }, {
+    key: 'downScore',
+    value: function downScore() {
+      var newScore = this.score - (this.size - this.set.size) * 42;
+      this.setScore(newScore);
+      return this.score;
+    }
   }]);
 
   return _class;
@@ -163,36 +140,22 @@ var hideCards = function hideCards() {
   });
 };
 
-// Increase scores when second card chosen is the same
-var upScore = function upScore(game) {
-  var newScore = game.getScore() + game.getSet().size * 42;
-  game.setScore(newScore);
-  document.getElementById('score').innerText = newScore;
-};
-
-// Decrease scores when wrong second card is chosen
-var downScore = function downScore(game) {
-  var newScore = game.getScore() - (game.getSize() - game.getSet().size) * 42;
-  game.setScore(newScore);
-  document.getElementById('score').innerText = newScore;
-};
-
 // Finish the game and show the result
 var finish = function finish(game) {
-  document.getElementById('result').innerText = '' + game.getScore();
+  document.getElementById('result').innerText = '' + game.score;
   document.getElementById('end').style.order = '1';
   document.getElementById('play').style.order = '2';
 };
 
-// Render the card on the browser page
+// Render the cards on the browser page
 var render = function render(game) {
-  game.getCards().forEach(function (el, ind) {
+  game.cards.forEach(function (el, ind) {
     var node = document.createElement('div');
     node.setAttribute('data-tid', 'Card');
     node.classList.add('card');
 
     var face = document.createElement('img');
-    face.setAttribute('src', './assets/cards/' + el.getNum() + '.png');
+    face.setAttribute('src', './assets/cards/' + el.num + '.png');
 
     var back = document.createElement('img');
     back.setAttribute('src', './assets/cards/back.png');
@@ -206,10 +169,11 @@ var render = function render(game) {
       blockClicks();
 
       var index = e.target.getAttribute('id');
-      var current = game.getCards()[index];
-      var clicked = game.getClicked();
+      var current = game.cards[index];
+      var clicked = game.clicked;
 
-      if (!game.getSet().has(current.getNum())) {
+
+      if (!game.set.has(current.num)) {
         unblockClicks();
         return;
       }
@@ -228,18 +192,18 @@ var render = function render(game) {
         return;
       }
 
-      if (clicked.getNum() === current.getNum()) {
+      if (clicked.num === current.num) {
         game.setClicked(null);
-        upScore(game);
-        game.getSet().delete(current.getNum());
+        document.getElementById('score').innerText = game.upScore();
+        game.set.delete(current.num);
         e.target.classList.add('hide');
         setTimeout(function () {
           blockClicks();
           document.getElementById(index).parentElement.classList.add('hide');
-          document.getElementById(clicked.getIndex()).parentElement.classList.add('hide');
+          document.getElementById(clicked.index).parentElement.classList.add('hide');
           unblockClicks();
         }, 500);
-        if (game.getSet().size === 0) {
+        if (game.set.size === 0) {
           finish(game);
         }
         return;
@@ -249,8 +213,8 @@ var render = function render(game) {
       setTimeout(function () {
         game.setClicked(null);
         e.target.classList.remove('hide');
-        document.getElementById(clicked.getIndex()).classList.remove('hide');
-        downScore(game);
+        document.getElementById(clicked.index).classList.remove('hide');
+        document.getElementById('score').innerText = game.downScore();
         unblockClicks();
       }, 500);
     });
@@ -285,7 +249,7 @@ var start = function start(game) {
 };
 
 // Clear the playground
-var kill = function kill() {
+var clear = function clear() {
   document.getElementsByClassName('row1')[0].innerHTML = '';
   document.getElementsByClassName('row2')[0].innerHTML = '';
   document.getElementsByClassName('row3')[0].innerHTML = '';
@@ -293,7 +257,7 @@ var kill = function kill() {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-  var game = new _Game2.default([], 9);
+  var game = new _Game2.default();
 
   // Start the game when "Start game" button is clicked
   document.getElementById('new-game').addEventListener('click', function () {
@@ -305,14 +269,14 @@ document.addEventListener('DOMContentLoaded', function () {
   // Restart the game
   document.getElementById('restart-game').addEventListener('click', function () {
     blockClicks();
-    kill();
+    clear();
     start(game);
   });
 
   // Play one more time after showing results
   document.getElementById('one-more').addEventListener('click', function () {
     blockClicks();
-    kill();
+    clear();
     start(game);
 
     document.getElementById('play').style.order = '1';

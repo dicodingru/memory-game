@@ -11,26 +11,6 @@ export default class {
     this.score = 0; // Current scores
   }
 
-  getCards() {
-    return this.cards;
-  }
-
-  getSize() {
-    return this.size;
-  }
-
-  getSet() {
-    return this.set;
-  }
-
-  getClicked() {
-    return this.clicked;
-  }
-
-  getScore() {
-    return this.score;
-  }
-
   setClicked(card) {
     this.clicked = card;
   }
@@ -56,5 +36,19 @@ export default class {
   // an instance of <Card> class with relevant properties
   putOnTable() {
     this.cards = this.cards.map((val, ind) => new Card(val, ind));
+  }
+
+  // Increase scores when second card chosen is the same
+  upScore() {
+    const newScore = this.score + (this.set.size * 42);
+    this.setScore(newScore);
+    return this.score;
+  }
+
+  // Decrease scores when wrong second card is chosen
+  downScore() {
+    const newScore = this.score - ((this.size - this.set.size) * 42);
+    this.setScore(newScore);
+    return this.score;
   }
 }
