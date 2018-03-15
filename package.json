@@ -1,6 +1,6 @@
 {
   "name": "di-memory-game",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Memory Game",
   "main": "index.html",
   "scripts": {

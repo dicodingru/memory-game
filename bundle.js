@@ -154,15 +154,13 @@ var render = function render(game) {
     node.setAttribute('data-tid', 'Card');
     node.classList.add('card');
 
-    var face = document.createElement('img');
-    face.setAttribute('src', './assets/cards/' + el.num + '.png');
+    var face = document.createElement('div');
+    face.classList.add('img-' + el.num);
 
-    var back = document.createElement('img');
-    back.setAttribute('src', './assets/cards/back.png');
-    back.setAttribute('id', '' + ind);
+    var back = document.createElement('div');
     back.setAttribute('data-tid', 'Card-flipped');
-    back.classList.add('back');
-    back.classList.add('hide');
+    back.setAttribute('id', '' + ind);
+    back.classList.add('img-53', 'back', 'hide');
 
     // Add click event listener on a card
     back.addEventListener('click', function (e) {

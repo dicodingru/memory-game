@@ -1,6 +1,8 @@
 * {
   Box-sizing: Border-box;
   border-width: 0;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -16,28 +18,6 @@ body {
   width: 503px;
   height: 252px;
   margin-bottom: 40px;
-}
-
-.card {
-  display: inline-block;
-  width: 100px;
-  height: 140px;
-  margin: 10px;
-}
-
-.card img {
-  width: 100px;
-  height: 140px;
-}
-
-.back {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.hide {
-  visibility: hidden;
 }
 
 #main,
@@ -110,3 +90,92 @@ span.board {
   height: 100%;
   display: none;
 }
+
+.card {
+  display: inline-block;
+  width: 100px;
+  height: 135px;
+  margin: 10px;
+}
+
+.back {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.img-1, .img-10, .img-11, .img-12, .img-13, 
+.img-14, .img-15, .img-16, .img-17, .img-18, 
+.img-19, .img-2, .img-20, .img-21, .img-22, 
+.img-23, .img-24, .img-25, .img-26, .img-27, 
+.img-28, .img-29, .img-3, .img-30, .img-31, 
+.img-32, .img-33, .img-34, .img-35, .img-36, 
+.img-37, .img-38, .img-39, .img-4, .img-40, 
+.img-41, .img-42, .img-43, .img-44, .img-45, 
+.img-46, .img-47, .img-48, .img-49, .img-5, 
+.img-50, .img-51, .img-52, .img-53, .img-6, 
+.img-7, .img-8, .img-9 {
+  display: inline-block;
+  width: 100px;
+  height: 135px;
+  background-image: url('assets/cards.png');
+  border-radius: 5px;
+}
+ 
+.img-1 { background-position: 0 0%; background-size: 100%; }
+.img-10 { background-position: 0 1.923077%; background-size: 100%; }
+.img-11 { background-position: 0 3.846154%; background-size: 100%; }
+.img-12 { background-position: 0 5.769231%; background-size: 100%; }
+.img-13 { background-position: 0 7.692308%; background-size: 100%; }
+.img-14 { background-position: 0 9.615385%; background-size: 100%; }
+.img-15 { background-position: 0 11.538462%; background-size: 100%; }
+.img-16 { background-position: 0 13.461538%; background-size: 100%; }
+.img-17 { background-position: 0 15.384615%; background-size: 100%; }
+.img-18 { background-position: 0 17.307692%; background-size: 100%; }
+.img-19 { background-position: 0 19.230769%; background-size: 100%; }
+.img-2 { background-position: 0 21.153846%; background-size: 100%; }
+.img-20 { background-position: 0 23.076923%; background-size: 100%; }
+.img-21 { background-position: 0 25%; background-size: 100%; }
+.img-22 { background-position: 0 26.923077%; background-size: 100%; }
+.img-23 { background-position: 0 28.846154%; background-size: 100%; }
+.img-24 { background-position: 0 30.769231%; background-size: 100%; }
+.img-25 { background-position: 0 32.692308%; background-size: 100%; }
+.img-26 { background-position: 0 34.615385%; background-size: 100%; }
+.img-27 { background-position: 0 36.538462%; background-size: 100%; }
+.img-28 { background-position: 0 38.461538%; background-size: 100%; }
+.img-29 { background-position: 0 40.384615%; background-size: 100%; }
+.img-3 { background-position: 0 42.307692%; background-size: 100%; }
+.img-30 { background-position: 0 44.230769%; background-size: 100%; }
+.img-31 { background-position: 0 46.153846%; background-size: 100%; }
+.img-32 { background-position: 0 48.076923%; background-size: 100%; }
+.img-33 { background-position: 0 50%; background-size: 100%; }
+.img-34 { background-position: 0 51.923077%; background-size: 100%; }
+.img-35 { background-position: 0 53.846154%; background-size: 100%; }
+.img-36 { background-position: 0 55.769231%; background-size: 100%; }
+.img-37 { background-position: 0 57.692308%; background-size: 100%; }
+.img-38 { background-position: 0 59.615385%; background-size: 100%; }
+.img-39 { background-position: 0 61.538462%; background-size: 100%; }
+.img-4 { background-position: 0 63.461538%; background-size: 100%; }
+.img-40 { background-position: 0 65.384615%; background-size: 100%; }
+.img-41 { background-position: 0 67.307692%; background-size: 100%; }
+.img-42 { background-position: 0 69.230769%; background-size: 100%; }
+.img-43 { background-position: 0 71.153846%; background-size: 100%; }
+.img-44 { background-position: 0 73.076923%; background-size: 100%; }
+.img-45 { background-position: 0 75%; background-size: 100%; }
+.img-46 { background-position: 0 76.923077%; background-size: 100%; }
+.img-47 { background-position: 0 78.846154%; background-size: 100%; }
+.img-48 { background-position: 0 80.769231%; background-size: 100%; }
+.img-49 { background-position: 0 82.692308%; background-size: 100%; }
+.img-5 { background-position: 0 84.615385%; background-size: 100%; }
+.img-50 { background-position: 0 86.538462%; background-size: 100%; }
+.img-51 { background-position: 0 88.461538%; background-size: 100%; }
+.img-52 { background-position: 0 90.384615%; background-size: 100%; }
+.img-53 { background-position: 0 92.307692%; background-size: 100%; }
+.img-6 { background-position: 0 94.230769%; background-size: 100%; }
+.img-7 { background-position: 0 96.153846%; background-size: 100%; }
+.img-8 { background-position: 0 98.076923%; background-size: 100%; }
+.img-9 { background-position: 0 100%; background-size: 100%; }
