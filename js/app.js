@@ -26,78 +26,8 @@ const finish = (game) => {
 
 // Render the cards on the browser page
 const render = (game) => {
-  game.cards.forEach((el, ind) => {
-    const node = document.createElement('div');
-    node.setAttribute('data-tid', 'Card');
-    node.classList.add('card');
-
-    const face = document.createElement('div');
-    face.classList.add(`img-${el.num}`);
-
-    const back = document.createElement('div');
-    back.setAttribute('data-tid', 'Card-flipped');
-    back.setAttribute('id', `${ind}`);
-    back.classList.add('img-53', 'back', 'hide');
-
-    // Add click event listener on a card
-    back.addEventListener('click', (e) => {
-      blockClicks();
-
-      const index = e.target.getAttribute('id');
-      const current = game.cards[index];
-      const { clicked } = game;
-
-      if (!game.set.has(current.num)) {
-        unblockClicks();
-        return;
-      }
-
-      if (clicked === null) {
-        game.setClicked(current);
-        e.target.classList.add('hide');
-        unblockClicks();
-        return;
-      }
-
-      if (clicked === current) {
-        game.setClicked(null);
-        e.target.classList.remove('hide');
-        unblockClicks();
-        return;
-      }
-
-      if (clicked.num === current.num) {
-        game.setClicked(null);
-        document.getElementById('score').innerText = game.upScore();
-        game.set.delete(current.num);
-        e.target.classList.add('hide');
-        setTimeout(() => {
-          blockClicks();
-          document.getElementById(index).parentElement.classList.add('hide');
-          document.getElementById(clicked.index).parentElement.classList.add('hide');
-          unblockClicks();
-        }, 500);
-        if (game.set.size === 0) {
-          finish(game);
-        }
-        return;
-      }
-
-      e.target.classList.add('hide');
-      setTimeout(() => {
-        game.setClicked(null);
-        e.target.classList.remove('hide');
-        document.getElementById(clicked.index).classList.remove('hide');
-        document.getElementById('score').innerText = game.downScore();
-        unblockClicks();
-      }, 500);
-    });
-
-    node.appendChild(face);
-    node.appendChild(back);
-
-    const targetRow = `row${Math.floor(ind / 6) + 1}`;
-    document.getElementsByClassName(targetRow)[0].appendChild(node);
+  game.cards.forEach((card) => {
+    card.render();
   });
 };
 
@@ -129,6 +59,63 @@ const clear = () => {
 document.addEventListener('DOMContentLoaded', () => {
   const game = new Game();
 
+  const onCardClick = (e) => {
+    if (!e.target.classList.contains('back')) {
+      return;
+    }
+
+    blockClicks();
+
+    const index = e.target.getAttribute('id');
+    const current = game.cards[index];
+    const { clicked } = game;
+
+    if (!game.set.has(current.num)) {
+      unblockClicks();
+      return;
+    }
+
+    if (clicked === null) {
+      game.setClicked(current);
+      e.target.classList.add('hide');
+      unblockClicks();
+      return;
+    }
+
+    if (clicked === current) {
+      game.setClicked(null);
+      e.target.classList.remove('hide');
+      unblockClicks();
+      return;
+    }
+
+    if (clicked.num === current.num) {
+      game.setClicked(null);
+      document.getElementById('score').innerText = game.upScore();
+      game.set.delete(current.num);
+      e.target.classList.add('hide');
+      setTimeout(() => {
+        blockClicks();
+        document.getElementById(index).parentElement.classList.add('hide');
+        document.getElementById(clicked.index).parentElement.classList.add('hide');
+        unblockClicks();
+      }, 500);
+      if (game.set.size === 0) {
+        finish(game);
+      }
+      return;
+    }
+
+    e.target.classList.add('hide');
+    setTimeout(() => {
+      game.setClicked(null);
+      e.target.classList.remove('hide');
+      document.getElementById(clicked.index).classList.remove('hide');
+      document.getElementById('score').innerText = game.downScore();
+      unblockClicks();
+    }, 500);
+  };
+
   // Start the game when "Start game" button is clicked
   document.getElementById('new-game').addEventListener('click', () => {
     start(game);
@@ -153,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('end').style.order = '2';
   });
 
+  document.getElementById('deck').addEventListener('click', onCardClick, false);
   // Temporary button for testing the interface
   // document.getElementById('hack').addEventListener('click', () => {
   //   finish(game);

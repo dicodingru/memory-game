@@ -1,18 +1,50 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _class = function _class(num, index) {
-  _classCallCheck(this, _class);
+var _class = function () {
+  function _class(num, index) {
+    _classCallCheck(this, _class);
 
-  this.num = num; // Card rank (picture name)
-  this.index = index; // Order number on the table
-};
+    this.num = num; // Card rank (picture name)
+    this.index = index; // Order number on the table
+  }
+
+  // Render the card on the play table
+
+
+  _createClass(_class, [{
+    key: 'render',
+    value: function render() {
+      var node = document.createElement('div');
+      node.setAttribute('data-tid', 'Card');
+      node.classList.add('card');
+
+      var face = document.createElement('div');
+      face.classList.add('img-' + this.num);
+
+      var back = document.createElement('div');
+      back.setAttribute('data-tid', 'Card-flipped');
+      back.setAttribute('id', '' + this.index);
+      back.classList.add('img-53', 'back', 'hide');
+
+      node.appendChild(face);
+      node.appendChild(back);
+
+      var targetRow = 'row' + (Math.floor(this.index / 6) + 1);
+      document.getElementsByClassName(targetRow)[0].appendChild(node);
+    }
+  }]);
+
+  return _class;
+}();
 
 exports.default = _class;
 
@@ -94,7 +126,9 @@ var _class = function () {
     key: 'upScore',
     value: function upScore() {
       var newScore = this.score + this.set.size * 42;
+      /** */console.log('this.score: ' + this.score);
       this.setScore(newScore);
+      /** */console.log('newScore: ' + newScore);
       return this.score;
     }
 
@@ -104,7 +138,9 @@ var _class = function () {
     key: 'downScore',
     value: function downScore() {
       var newScore = this.score - (this.size - this.set.size) * 42;
+      /** */console.log('this.score: ' + this.score);
       this.setScore(newScore);
+      /** */console.log('newScore: ' + newScore);
       return this.score;
     }
   }]);
@@ -149,79 +185,8 @@ var finish = function finish(game) {
 
 // Render the cards on the browser page
 var render = function render(game) {
-  game.cards.forEach(function (el, ind) {
-    var node = document.createElement('div');
-    node.setAttribute('data-tid', 'Card');
-    node.classList.add('card');
-
-    var face = document.createElement('div');
-    face.classList.add('img-' + el.num);
-
-    var back = document.createElement('div');
-    back.setAttribute('data-tid', 'Card-flipped');
-    back.setAttribute('id', '' + ind);
-    back.classList.add('img-53', 'back', 'hide');
-
-    // Add click event listener on a card
-    back.addEventListener('click', function (e) {
-      blockClicks();
-
-      var index = e.target.getAttribute('id');
-      var current = game.cards[index];
-      var clicked = game.clicked;
-
-
-      if (!game.set.has(current.num)) {
-        unblockClicks();
-        return;
-      }
-
-      if (clicked === null) {
-        game.setClicked(current);
-        e.target.classList.add('hide');
-        unblockClicks();
-        return;
-      }
-
-      if (clicked === current) {
-        game.setClicked(null);
-        e.target.classList.remove('hide');
-        unblockClicks();
-        return;
-      }
-
-      if (clicked.num === current.num) {
-        game.setClicked(null);
-        document.getElementById('score').innerText = game.upScore();
-        game.set.delete(current.num);
-        e.target.classList.add('hide');
-        setTimeout(function () {
-          blockClicks();
-          document.getElementById(index).parentElement.classList.add('hide');
-          document.getElementById(clicked.index).parentElement.classList.add('hide');
-          unblockClicks();
-        }, 500);
-        if (game.set.size === 0) {
-          finish(game);
-        }
-        return;
-      }
-
-      e.target.classList.add('hide');
-      setTimeout(function () {
-        game.setClicked(null);
-        e.target.classList.remove('hide');
-        document.getElementById(clicked.index).classList.remove('hide');
-        document.getElementById('score').innerText = game.downScore();
-        unblockClicks();
-      }, 500);
-    });
-
-    node.appendChild(face);
-    node.appendChild(back);
-
-    var targetRow = 'row' + (Math.floor(ind / 6) + 1);
-    document.getElementsByClassName(targetRow)[0].appendChild(node);
+  game.cards.forEach(function (card) {
+    card.render();
   });
 };
 
@@ -257,6 +222,64 @@ var clear = function clear() {
 document.addEventListener('DOMContentLoaded', function () {
   var game = new _Game2.default();
 
+  var onCardClick = function onCardClick(e) {
+    if (!e.target.classList.contains('back')) {
+      return;
+    }
+
+    blockClicks();
+
+    var index = e.target.getAttribute('id');
+    var current = game.cards[index];
+    var clicked = game.clicked;
+
+
+    if (!game.set.has(current.num)) {
+      unblockClicks();
+      return;
+    }
+
+    if (clicked === null) {
+      game.setClicked(current);
+      e.target.classList.add('hide');
+      unblockClicks();
+      return;
+    }
+
+    if (clicked === current) {
+      game.setClicked(null);
+      e.target.classList.remove('hide');
+      unblockClicks();
+      return;
+    }
+
+    if (clicked.num === current.num) {
+      game.setClicked(null);
+      document.getElementById('score').innerText = game.upScore();
+      game.set.delete(current.num);
+      e.target.classList.add('hide');
+      setTimeout(function () {
+        blockClicks();
+        document.getElementById(index).parentElement.classList.add('hide');
+        document.getElementById(clicked.index).parentElement.classList.add('hide');
+        unblockClicks();
+      }, 500);
+      if (game.set.size === 0) {
+        finish(game);
+      }
+      return;
+    }
+
+    e.target.classList.add('hide');
+    setTimeout(function () {
+      game.setClicked(null);
+      e.target.classList.remove('hide');
+      document.getElementById(clicked.index).classList.remove('hide');
+      document.getElementById('score').innerText = game.downScore();
+      unblockClicks();
+    }, 500);
+  };
+
   // Start the game when "Start game" button is clicked
   document.getElementById('new-game').addEventListener('click', function () {
     start(game);
@@ -281,6 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('end').style.order = '2';
   });
 
+  document.getElementById('deck').addEventListener('click', onCardClick, false);
   // Temporary button for testing the interface
   // document.getElementById('hack').addEventListener('click', () => {
   //   finish(game);
